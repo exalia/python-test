@@ -10,39 +10,23 @@ class tree:
 
     # Add node
 
-    def add(self, val):
+    def add(self, value):
         if self.first_node == None:
-            self.first_node = Node(val)
+            self.first_node = Node(value)
         else:
-            self.add_recursive(val, self.first_node)
+            self.add_recursive(value, self.first_node)
 
-    def add_recursive(self, val, node):
-        if val < node.value:
-            if node.left != None:
-                self.add_recursive(val, node.left)
-            else:
-                node.left = Node(val)
-        else:
+    def add_recursive(self, value, node):
+        if value > node.value:
             if node.right != None:
-                self.add_recursive(val, node.right)
+                self.add_recursive(value, node.right)
             else:
-                node.right = Node(val)
-
-    # Search tree Value
-
-    def run(self, val):
-        if self.first_node != None:
-            return False if self.get_node_by_value(val, self.first_node) == None else True
+                node.right = Node(value)
         else:
-            return False
-
-    def get_node_by_value(self, val, node):
-        if val == node.value:
-            return node
-        elif val < node.value and node.left != None:
-            return self.get_node_by_value(val, node.left)
-        elif val > node.value and node.right != None:
-            return self.get_node_by_value(val, node.right)
+            if node.left != None:
+                self.add_recursive(value, node.left)
+            else:
+                node.left = Node(value)
 
     # print tree
 
@@ -51,15 +35,30 @@ class tree:
             self.print_recursive(self.first_node)
 
     def print_recursive(self, node):
-        if(node != None):
+        if node != None:
             self.print_recursive(node.left)
-            print (str(node.value))
+            print (node.value)
             self.print_recursive(node.right)
+
+    # Search tree Value
+
+    def run(self, value):
+        if self.first_node != None and self.get_node_by_value(value, self.first_node) != None:
+            return True
+        else:
+            return False
+
+    def get_node_by_value(self, value, node):
+        if value == node.value:
+            return node
+        elif value > node.value and node.right != None:
+            return self.get_node_by_value(value, node.right)
+        elif value < node.value and node.left != None:
+            return self.get_node_by_value(value, node.left)
 
 
 def get_classes():
-    li = [tree]
-    return li
+    return [tree, Node]
 
 tree = tree()
 tree.add(47)
